@@ -1,11 +1,21 @@
 # RNA-seq Demonstration Pipeline
 ### Bash scripts describing a simple RNA-seq pipeline, from adapter trimming to visualization on a genome browser.
 #### Workflow steps:
-1. Adapter trimming ([Trim Galore!](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md))
-2. Alignment ([STAR](https://github.com/alexdobin/STAR))
-3. Quality Control ([samtools](https://github.com/samtools/samtools), [Picard](https://broadinstitute.github.io/picard/), [bamtools](https://github.com/pezmaster31/bamtools))
-4. Quantification ([Subread](https://subread.sourceforge.net/), awk)
-5. Visualization ([bedtools](https://bedtools.readthedocs.io/en/latest/), [bedGraphToBigWig](https://www.encodeproject.org/software/bedgraphtobigwig/))
+1. Adapter trimming and fastq Quality Control ([Trim Galore!](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)) \
+        **INPUT**: raw `.fastq.gz` files \
+        **OUTPUT**: trimmed `.fq.gz` files, FastQC results in `.html`
+2. Alignment ([STAR](https://github.com/alexdobin/STAR)) \
+        **INPUT**: trimmed `.fq.gz` files \
+        **OUTPUT**: raw `.bam` files
+3. Quality Control ([samtools](https://github.com/samtools/samtools), [Picard](https://broadinstitute.github.io/picard/), [bamtools](https://github.com/pezmaster31/bamtools)) \
+        **INPUT**: raw `.bam` files \
+        **OUTPUT**: filtered `.bam` files
+4. Quantification ([Subread](https://subread.sourceforge.net/), awk) \
+        **INPUT**: filtered `.bam` files, `.gtf` file (**G**ene **T**ransfer **F**ormat) \
+        **OUTPUT**: by-gene read counts in a simple text `.tsv`
+5. Visualization ([bedtools](https://bedtools.readthedocs.io/en/latest/), [bedGraphToBigWig](https://www.encodeproject.org/software/bedgraphtobigwig/)) \
+        **INPUT**: filtered `.bam` files, Chromosome Sizes file in `.bed` format \
+        **OUTPUT**: `.bw` file that can be uploaded to a genome browser for visalization of read coverage. 
 
 #### Detailed methods
 **1. Adapter trimming is performed with Trim Galore! package.** \
@@ -26,12 +36,12 @@
 ````
 featureCounts \
         -p \ # Paired-end reads
-        -t exon \ 
-        -g gene_id \
-        -s 1 \
-        -O \
+        -t exon \ # Feature types to consider in GTF file
+        -g gene_id \ # Attribute to group features (e.g. exons) into meta-features (e.g. genes)
+        -s 1 \ # Input data is strand-specific
+        -O \ # Count reads that overlap more than one meta-feature more than once.
         -T <# of CPUs> \
-        -a <GTF File> \
+        -a <GTF File> \ # Path to GTF file
         -o <outfile> \
         <BAM File>
 ````
