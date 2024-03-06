@@ -5,7 +5,7 @@
         **INPUT**: raw `.fastq.gz` files \
         **OUTPUT**: trimmed `.fq.gz` files, FastQC results in `.html`
 2. Alignment ([STAR](https://github.com/alexdobin/STAR)) \
-        **INPUT**: trimmed `.fq.gz` files \
+        **INPUT**: trimmed `.fq.gz` files, STAR index directory \
         **OUTPUT**: raw `.bam` files
 3. Quality Control ([samtools](https://github.com/samtools/samtools), [Picard](https://broadinstitute.github.io/picard/), [bamtools](https://github.com/pezmaster31/bamtools)) \
         **INPUT**: raw `.bam` files \
