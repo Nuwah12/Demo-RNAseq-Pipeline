@@ -46,4 +46,13 @@ featureCounts \
         <BAM File>
 ````
 **5. We construct a `bigWig` file, which is a binary file format for viewing the data on a genome browser track.**
+````
+##### Normalization #####
+READS=$(samtools view -c ${bam}) 
+FACTOR=$(echo "scale=10; 1000000/${READS}" | bc -l)
+#########################
+
+bamToBed -i <bam> -bed12 | bed12ToBed6 -i stdin | genomeCoverageBed -bg -i stdin -g <ChromosomeSizes> -scale ${FACTOR} | sort -k1,1 -k2,2n > <temporary output> # Long pipe of commands to convert bam file to sorted text .bed file
+bedGraphToBigWig ${outdir}/${prefix}.tmp.bg ${chromsizes} ${outdir}/${prefix}.bw # Convert the newly created bed file into a bigwig file
+````
 
