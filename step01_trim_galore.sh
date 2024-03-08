@@ -13,7 +13,7 @@ fq2=${2}
 outdir=${3}
 cpu=${4}
 
-prefix=$(basename ${fq1} .fastq.gz)
+prefix=$(basename ${fq1} _R1.fastq.gz)
 
 trim_galore --fastqc \
 	-j ${cpu} \
