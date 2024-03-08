@@ -2,7 +2,7 @@
 ### Bash scripts describing a simple RNA-seq pipeline, from adapter trimming to visualization on a genome browser.
 [Here](https://www.formbio.com/blog/your-essential-guide-different-file-formats-bioinformatics) is a useful article on common filetypes used in bioinformatics
 #### Workflow steps:
-1. Adapter trimming and fastq Quality Control ([Trim Galore!](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md))
+1. Adapter trimming and fastq Quality Control ([Trim Galore!](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md)) \
         **INPUT**: raw `.fastq.gz` files \
         **OUTPUT**: trimmed `.fq.gz` files, FastQC results in `.html`
 2. Alignment ([STAR](https://github.com/alexdobin/STAR)) \
